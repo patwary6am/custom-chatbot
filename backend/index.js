@@ -16,14 +16,15 @@ app.post("/chat", async (req, res) => {
       headers: {
         "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "http://localhost:5500", // your CodePen or localhost frontend origin
+        "HTTP-Referer": "https://custom-chatbot-8fwq.onrender.com", // your public backend URL
+        "X-Title": "HasanGPT"
       },
       body: JSON.stringify({
-        model: 'deepseek/deepseek-chat-v3-0324:free',
+        model: "deepseek/deepseek-chat", // ✅ valid model for DeepSeek via OpenRouter
         messages: [
           {
             role: "system",
-            content: "You are HasanGPT. You ONLY respond with MD Hasan Patwary's information in his personal style.",
+            content: "You are HasanGPT. You ONLY answer questions related to MD Hasan Patwary, in his personal tone, friendly and helpful.",
           },
           {
             role: "user",
@@ -34,16 +35,22 @@ app.post("/chat", async (req, res) => {
     });
 
     const data = await response.json();
-    console.log("📦 Full DeepSeek response:", data);
-    const reply = data.choices?.[0]?.message?.content || "No response";
 
+    if (data.error) {
+      console.error("❌ OpenRouter API Error:", data.error);
+      return res.status(500).json({ reply: "OpenRouter API error: " + data.error.message });
+    }
+
+    const reply = data.choices?.[0]?.message?.content || "No response from HasanGPT.";
     res.json({ reply });
+
   } catch (err) {
-    console.error("🔥 DeepSeek Error:", err);
-    res.status(500).json({ error: "DeepSeek API failed." });
+    console.error("🔥 Server Error:", err);
+    res.status(500).json({ reply: "Server error occurred." });
   }
 });
 
-app.listen(3000, () => {
-  console.log("✅ Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
