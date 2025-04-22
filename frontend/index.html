@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HasanGPT</title>
+  <title>Bangla GPT</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -69,7 +69,7 @@
         });
 
         const data = await response.json();
-        const reply = data.reply || "No response from HasanGPT.";
+        const reply = data.reply || "No response from BanglaGPT.";
 
         const botMsgEl = document.createElement("div");
         botMsgEl.className = "message bot";
@@ -81,7 +81,7 @@
       } catch (err) {
         const errorMsgEl = document.createElement("div");
         errorMsgEl.className = "message bot";
-        errorMsgEl.textContent = "🚨 Error: Could not reach HasanGPT.";
+        errorMsgEl.textContent = "🚨 Error: Could not reach Bangla GPT.";
         messagesDiv.appendChild(errorMsgEl);
         console.error(err);
       }

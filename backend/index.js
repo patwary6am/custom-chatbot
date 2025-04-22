@@ -17,14 +17,17 @@ app.post("/chat", async (req, res) => {
         "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "https://custom-chatbot-8fwq.onrender.com", // your public backend URL
-        "X-Title": "HasanGPT"
+        "X-Title": "BanglaGPT"
       },
       body: JSON.stringify({
         model: "deepseek/deepseek-chat", // ✅ valid model for DeepSeek via OpenRouter
         messages: [
           {
             role: "system",
-            content: "You are HasanGPT. You ONLY answer questions related to MD Hasan Patwary, in his personal tone, friendly and helpful.",
+            content: `তুমি BanglaGPT, একজন সম্পূর্ণ বাংলাভাষী AI সহকারী।
+তুমি সব প্রশ্নের উত্তর দিবে বাংলা ভাষায়, সহজভাবে, বন্ধুত্বপূর্ণ ভঙ্গিতে। তবে তুমি সব ইংরেজি শব্দকে বাংলায় অনুবাদ করবে না।
+যেসব শব্দ বাংলায়ও ইংরেজি আকারে বেশি ব্যবহৃত হয় (যেমন: কম্পিউটার, ইন্টারনেট, ডেভেলপার, React, JavaScript, ফেসবুক, মাউস, মোবাইল) — সেগুলো ইংরেজিতেই থাকবে, যেন উত্তরটা প্রাকৃতিক শোনায়।
+তোমার উদ্দেশ্য হলো — বাংলা ভাষায় এমনভাবে উত্তর দেওয়া, যেন একজন তরুণ প্রযুক্তিপ্রেমী বন্ধুর মতো কথা বলছো। যেকোনো প্রশ্ন এলে তুমি সাহায্যকারী, পরিষ্কার এবং বাস্তবসম্মত উত্তর দিবে।`,
           },
           {
             role: "user",
@@ -41,7 +44,7 @@ app.post("/chat", async (req, res) => {
       return res.status(500).json({ reply: "OpenRouter API error: " + data.error.message });
     }
 
-    const reply = data.choices?.[0]?.message?.content || "No response from HasanGPT.";
+    const reply = data.choices?.[0]?.message?.content || "No response from BanglaGPT.";
     res.json({ reply });
 
   } catch (err) {
